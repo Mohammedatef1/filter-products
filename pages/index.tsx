@@ -1,6 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
