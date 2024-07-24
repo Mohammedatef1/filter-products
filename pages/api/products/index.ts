@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const products = await db.query({
       topK: 12,
       vector: [0, 0, 0],
-      includeData: true,
+      includeMetadata: true,
     });
 
     return res.status(200).json(products);
