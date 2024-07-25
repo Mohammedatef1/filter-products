@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { ProductState } from "@/lib/validators/ProductValidator";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { debounce } from "lodash.debounce";
+import debounce from "lodash.debounce";
 import { ChevronDown } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -69,14 +69,13 @@ export default function Home() {
   });
 
   const onSubmit = () => refetch();
-  {
-    /* const debounceSubmit = debounce(onSubmit, 400);
-  const _debounceSubmit = useCallback(debounceSubmit, []);*/
-  }
+
+  const debounceSubmit = debounce(onSubmit, 400);
+  const _debounceSubmit = useCallback(debounceSubmit, []);
 
   useEffect(() => {
-    onSubmit();
-  }, [filter.color, filter.size, filter.sort, onSubmit]);
+    _debounceSubmit();
+  }, [filter, _debounceSubmit]);
 
   const { data: products, refetch } = useQuery({
     queryKey: ["products"],
