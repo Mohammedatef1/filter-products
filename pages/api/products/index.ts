@@ -39,8 +39,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { color, size, price, sort } = ProductFilterValidator.parse(data);
     const filter = new Filter();
 
-    color.forEach((color: string | number) => filter.add("color", "=", color));
-    size.forEach((size: string | number) => filter.add("size", "=", size));
+    color.length === 0 ? filter.addRow("color", `color = ""`) : color.forEach((color: string | number) => filter.add("color", "=", color));
+    size.length === 0 ? filter.addRow("size", `size = ""`) : size.forEach((size: string | number) => filter.add("size", "=", size));
     filter.addRow("price", `price >= ${price[0]} AND price <= ${price[1]}`);
 
     const products = await db.query({
