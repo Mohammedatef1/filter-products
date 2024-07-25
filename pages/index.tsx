@@ -1,3 +1,4 @@
+import NoProduct from "@/components/products/NoProduct";
 import Product from "@/components/products/Product";
 import ProductSkeleton from "@/components/products/ProductSkeleton";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -297,14 +298,20 @@ export default function Home() {
 
         {/* Products*/}
         <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {products
-            ? products?.map((item: { id: string; metadata: TProduct }) => (
+          {products ? (
+            products.length > 0 ? (
+              products?.map((item: { id: string; metadata: TProduct }) => (
                 <Product
                   key={item.id}
                   product={item.metadata}
                 />
               ))
-            : new Array(12).fill(null).map((_, i) => <ProductSkeleton key={i} />)}
+            ) : (
+              <NoProduct />
+            )
+          ) : (
+            new Array(12).fill(null).map((_, i) => <ProductSkeleton key={i} />)
+          )}
         </div>
       </div>
     </main>
