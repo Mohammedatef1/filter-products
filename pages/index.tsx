@@ -5,10 +5,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/compon
 import { Slider } from "@/components/ui/slider";
 import type { Product as TProduct } from "@/db";
 import { cn } from "@/lib/utils";
+import { ProductState } from "@/lib/validators/ProductValidator";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { debounce } from "lodash.debounce";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const SORT_OPTIONS = [
   { name: "None", value: "none" },
@@ -50,13 +52,13 @@ const PRICE_FILTERS = {
   id: "price",
   options: [
     { name: "Any price", range: [0, 100] },
-    { name: "Under 20$", range: [0, 20] },
-    { name: "Under 40$", range: [0, 40] },
+    { name: "Under 20 $", range: [0, 20] },
+    { name: "Under 40 $", range: [0, 40] },
   ],
 };
 
 export default function Home() {
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<ProductState>({
     sort: "none",
     color: ["white", "green", "blue", "purple", "biege"],
     size: ["S", "M", "L"],
@@ -66,11 +68,26 @@ export default function Home() {
     },
   });
 
-  const { data: products } = useQuery({
+  const onSubmit = () => refetch();
+  {
+    /* const debounceSubmit = debounce(onSubmit, 400);
+  const _debounceSubmit = useCallback(debounceSubmit, []);*/
+  }
+
+  useEffect(() => {
+    onSubmit();
+  }, [filter.color, filter.size, filter.sort, onSubmit]);
+
+  const { data: products, refetch } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const { data } = await axios.post("/api/products", {
-        filter: filter,
+        filter: {
+          sort: filter.sort,
+          price: filter.price.range,
+          color: filter.color,
+          size: filter.size,
+        },
       });
       return data;
     },
@@ -78,10 +95,6 @@ export default function Home() {
 
   const minPrice = Math.min(filter.price.range[0], filter.price.range[1]);
   const maxPrice = Math.max(filter.price.range[0], filter.price.range[1]);
-
-  console.log(products);
-
-  console.log(filter);
 
   return (
     <main className="mx-auto max-w-7xl p-4 sm:p-6">
@@ -145,11 +158,11 @@ export default function Home() {
                           id={`color-${option.value}`}
                           type="checkbox"
                           className="w-4 h-4"
-                          checked={filter.color.includes(option.value)}
+                          checked={filter.color.includes(option.value as never)}
                           onChange={() => {
                             setFilter((prev) => ({
                               ...prev,
-                              color: prev.color.includes(option.value) ? prev.color.filter((v) => v != option.value) : [...prev.color, option.value],
+                              color: prev.color.includes(option.value as never) ? prev.color.filter((v) => v != option.value) : [...prev.color, option.value as never],
                             }));
                           }}
                         />
@@ -177,11 +190,11 @@ export default function Home() {
                           id={`size-${option.value}`}
                           type="checkbox"
                           className="w-4 h-4"
-                          checked={filter.size.includes(option.value)}
+                          checked={filter.size.includes(option.value as never)}
                           onChange={() => {
                             setFilter((prev) => ({
                               ...prev,
-                              size: prev.size.includes(option.value) ? prev.size.filter((v) => v != option.value) : [...prev.size, option.value],
+                              size: prev.size.includes(option.value as never) ? prev.size.filter((v) => v != option.value) : [...prev.size, option.value as never],
                             }));
                           }}
                         />
@@ -261,6 +274,7 @@ export default function Home() {
                       className={cn("", {
                         "opacity-60 cursor-not-allowed": !filter.price.isCustom,
                       })}
+                      step={5}
                       disabled={!filter.price.isCustom}
                       min={0}
                       max={100}
