@@ -71,7 +71,7 @@ export default function Home() {
 
   const onSubmit = () => refetch();
 
-  const debounceSubmit = debounce(onSubmit, 400);
+  const debounceSubmit = debounce(onSubmit, 250);
   const _debounceSubmit = useCallback(debounceSubmit, []);
 
   useEffect(() => {
@@ -153,7 +153,7 @@ export default function Home() {
                     {COLOR_FILTERS.options.map((option) => (
                       <li
                         key={option.name}
-                        className="flex items-center gap-3">
+                        className="flex items-center">
                         <input
                           id={`color-${option.value}`}
                           type="checkbox"
@@ -167,7 +167,7 @@ export default function Home() {
                           }}
                         />
                         <label
-                          className="text-gray-600"
+                          className="text-gray-600 pl-3"
                           htmlFor={`color-${option.value}`}>
                           {option.name}
                         </label>
@@ -185,11 +185,11 @@ export default function Home() {
                     {SIZE_FILTERS.options.map((option) => (
                       <li
                         key={option.name}
-                        className="flex items-center gap-3">
+                        className="flex items-center ">
                         <input
                           id={`size-${option.value}`}
                           type="checkbox"
-                          className="w-4 h-4"
+                          className="w-4 h-4 "
                           checked={filter.size.includes(option.value as never)}
                           onChange={() => {
                             setFilter((prev) => ({
@@ -199,7 +199,7 @@ export default function Home() {
                           }}
                         />
                         <label
-                          className="text-gray-600"
+                          className="text-gray-600 pl-3"
                           htmlFor={`size-${option.value}`}>
                           {option.name}
                         </label>
@@ -217,7 +217,7 @@ export default function Home() {
                     {PRICE_FILTERS.options.map((option, index) => (
                       <li
                         key={option.name}
-                        className="flex items-center gap-3">
+                        className="flex items-center">
                         <input
                           id={`price-${index}`}
                           name="price"
@@ -235,13 +235,13 @@ export default function Home() {
                           }}
                         />
                         <label
-                          className="text-gray-600"
+                          className="text-gray-600  pl-3"
                           htmlFor={`price-${index}`}>
                           {option.name}
                         </label>
                       </li>
                     ))}
-                    <li className="flex items-center gap-3">
+                    <li className="flex items-center">
                       <input
                         id={`price-${PRICE_FILTERS.options.length}`}
                         type="radio"
@@ -259,7 +259,7 @@ export default function Home() {
                         }}
                       />
                       <label
-                        className="text-gray-600"
+                        className="text-gray-600 pl-3"
                         htmlFor={`price-${PRICE_FILTERS.options.length}`}>
                         Custom
                       </label>
@@ -274,7 +274,7 @@ export default function Home() {
                       className={cn("", {
                         "opacity-60 cursor-not-allowed": !filter.price.isCustom,
                       })}
-                      step={5}
+                      step={1}
                       disabled={!filter.price.isCustom}
                       min={0}
                       max={100}
