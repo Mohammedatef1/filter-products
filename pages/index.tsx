@@ -158,7 +158,7 @@ export default function Home() {
                           <input
                             id={`color-${option.value}`}
                             type="checkbox"
-                            className="w-4 h-4"
+                            className="w-4 h-4 cursor-pointer"
                             checked={filter.color.includes(option.value as never)}
                             onChange={() => {
                               setFilter((prev) => ({
@@ -168,7 +168,7 @@ export default function Home() {
                             }}
                           />
                           <label
-                            className="text-gray-600 pl-3"
+                            className="text-gray-600 pl-3 cursor-pointer"
                             htmlFor={`color-${option.value}`}>
                             {option.name}
                           </label>
@@ -190,7 +190,7 @@ export default function Home() {
                           <input
                             id={`size-${option.value}`}
                             type="checkbox"
-                            className="w-4 h-4 "
+                            className="w-4 h-4 cursor-pointer"
                             checked={filter.size.includes(option.value as never)}
                             onChange={() => {
                               setFilter((prev) => ({
@@ -200,7 +200,7 @@ export default function Home() {
                             }}
                           />
                           <label
-                            className="text-gray-600 pl-3"
+                            className="text-gray-600 pl-3 cursor-pointer"
                             htmlFor={`size-${option.value}`}>
                             {option.name}
                           </label>
@@ -223,7 +223,7 @@ export default function Home() {
                             id={`price-${index}`}
                             name="price"
                             type="radio"
-                            className="w-4 h-4"
+                            className="w-4 h-4 cursor-pointer"
                             checked={!filter.price.isCustom && filter.price.range[0] === option.range[0] && filter.price.range[1] === option.range[1]}
                             onChange={() => {
                               setFilter((prev) => ({
@@ -236,7 +236,7 @@ export default function Home() {
                             }}
                           />
                           <label
-                            className="text-gray-600  pl-3"
+                            className="text-gray-600  pl-3 cursor-pointer"
                             htmlFor={`price-${index}`}>
                             {option.name}
                           </label>
@@ -247,7 +247,7 @@ export default function Home() {
                           id={`price-${PRICE_FILTERS.options.length}`}
                           type="radio"
                           name="price"
-                          className="w-4 h-4"
+                          className="w-4 h-4 cursor-pointer"
                           checked={filter.price.isCustom}
                           onChange={() => {
                             setFilter((prev) => ({
@@ -260,7 +260,7 @@ export default function Home() {
                           }}
                         />
                         <label
-                          className="text-gray-600 pl-3"
+                          className="text-gray-600 pl-3 cursor-pointer"
                           htmlFor={`price-${PRICE_FILTERS.options.length}`}>
                           Custom
                         </label>
