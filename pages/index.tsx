@@ -125,179 +125,181 @@ export default function Home() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 py-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-y-8 lg:gap-y-0 lg:gap-x-8 pb-6">
         {/* Sort options */}
-        <div>
-          <div className="pb-6 border-b border-gray-200">
-            <ul className="space-y-4">
-              {PRODUCTS_OPTIONS.map((product) => (
-                <li
-                  key={product.name}
-                  className={cn("font-medium text-sm", {
-                    "cursor-pointer text-gray-900 ": product.available,
-                    "cursor-not-allowed text-gray-500 ": !product.available,
-                  })}>
-                  {product.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="text-sm">
-            <Accordion type="multiple">
-              <AccordionItem value="color">
-                <AccordionTrigger className="py-3 text-gray-400 hover:text-gray-500">
-                  <span className="text-gray-900 font-medium">Color</span>
-                </AccordionTrigger>
-                <AccordionContent className="py-4">
-                  <ul className=" space-y-4 ">
-                    {COLOR_FILTERS.options.map((option) => (
-                      <li
-                        key={option.name}
-                        className="flex items-center">
+        <div className="relative">
+          <div className="md:sticky md:top-0 pt-6">
+            <div className="pb-6 border-b border-gray-200">
+              <ul className="space-y-4">
+                {PRODUCTS_OPTIONS.map((product) => (
+                  <li
+                    key={product.name}
+                    className={cn("font-medium text-sm", {
+                      "cursor-pointer text-gray-900 ": product.available,
+                      "cursor-not-allowed text-gray-500 ": !product.available,
+                    })}>
+                    {product.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="text-sm">
+              <Accordion type="multiple">
+                <AccordionItem value="color">
+                  <AccordionTrigger className="py-3 text-gray-400 hover:text-gray-500">
+                    <span className="text-gray-900 font-medium">Color</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="py-4">
+                    <ul className=" space-y-4 ">
+                      {COLOR_FILTERS.options.map((option) => (
+                        <li
+                          key={option.name}
+                          className="flex items-center">
+                          <input
+                            id={`color-${option.value}`}
+                            type="checkbox"
+                            className="w-4 h-4"
+                            checked={filter.color.includes(option.value as never)}
+                            onChange={() => {
+                              setFilter((prev) => ({
+                                ...prev,
+                                color: prev.color.includes(option.value as never) ? prev.color.filter((v) => v != option.value) : [...prev.color, option.value as never],
+                              }));
+                            }}
+                          />
+                          <label
+                            className="text-gray-600 pl-3"
+                            htmlFor={`color-${option.value}`}>
+                            {option.name}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="size">
+                  <AccordionTrigger className="py-3 text-gray-400 hover:text-gray-500">
+                    <span className="text-gray-900 font-medium">Size</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="py-4">
+                    <ul className=" space-y-4 ">
+                      {SIZE_FILTERS.options.map((option) => (
+                        <li
+                          key={option.name}
+                          className="flex items-center ">
+                          <input
+                            id={`size-${option.value}`}
+                            type="checkbox"
+                            className="w-4 h-4 "
+                            checked={filter.size.includes(option.value as never)}
+                            onChange={() => {
+                              setFilter((prev) => ({
+                                ...prev,
+                                size: prev.size.includes(option.value as never) ? prev.size.filter((v) => v != option.value) : [...prev.size, option.value as never],
+                              }));
+                            }}
+                          />
+                          <label
+                            className="text-gray-600 pl-3"
+                            htmlFor={`size-${option.value}`}>
+                            {option.name}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="price">
+                  <AccordionTrigger className="py-3 text-gray-400 hover:text-gray-500">
+                    <span className="text-gray-900 font-medium">Price</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="py-4">
+                    <ul className=" space-y-4 ">
+                      {PRICE_FILTERS.options.map((option, index) => (
+                        <li
+                          key={option.name}
+                          className="flex items-center">
+                          <input
+                            id={`price-${index}`}
+                            name="price"
+                            type="radio"
+                            className="w-4 h-4"
+                            checked={!filter.price.isCustom && filter.price.range[0] === option.range[0] && filter.price.range[1] === option.range[1]}
+                            onChange={() => {
+                              setFilter((prev) => ({
+                                ...prev,
+                                price: {
+                                  isCustom: false,
+                                  range: [option.range[0], option.range[1]],
+                                },
+                              }));
+                            }}
+                          />
+                          <label
+                            className="text-gray-600  pl-3"
+                            htmlFor={`price-${index}`}>
+                            {option.name}
+                          </label>
+                        </li>
+                      ))}
+                      <li className="flex items-center">
                         <input
-                          id={`color-${option.value}`}
-                          type="checkbox"
-                          className="w-4 h-4"
-                          checked={filter.color.includes(option.value as never)}
-                          onChange={() => {
-                            setFilter((prev) => ({
-                              ...prev,
-                              color: prev.color.includes(option.value as never) ? prev.color.filter((v) => v != option.value) : [...prev.color, option.value as never],
-                            }));
-                          }}
-                        />
-                        <label
-                          className="text-gray-600 pl-3"
-                          htmlFor={`color-${option.value}`}>
-                          {option.name}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="size">
-                <AccordionTrigger className="py-3 text-gray-400 hover:text-gray-500">
-                  <span className="text-gray-900 font-medium">Size</span>
-                </AccordionTrigger>
-                <AccordionContent className="py-4">
-                  <ul className=" space-y-4 ">
-                    {SIZE_FILTERS.options.map((option) => (
-                      <li
-                        key={option.name}
-                        className="flex items-center ">
-                        <input
-                          id={`size-${option.value}`}
-                          type="checkbox"
-                          className="w-4 h-4 "
-                          checked={filter.size.includes(option.value as never)}
-                          onChange={() => {
-                            setFilter((prev) => ({
-                              ...prev,
-                              size: prev.size.includes(option.value as never) ? prev.size.filter((v) => v != option.value) : [...prev.size, option.value as never],
-                            }));
-                          }}
-                        />
-                        <label
-                          className="text-gray-600 pl-3"
-                          htmlFor={`size-${option.value}`}>
-                          {option.name}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="price">
-                <AccordionTrigger className="py-3 text-gray-400 hover:text-gray-500">
-                  <span className="text-gray-900 font-medium">Price</span>
-                </AccordionTrigger>
-                <AccordionContent className="py-4">
-                  <ul className=" space-y-4 ">
-                    {PRICE_FILTERS.options.map((option, index) => (
-                      <li
-                        key={option.name}
-                        className="flex items-center">
-                        <input
-                          id={`price-${index}`}
-                          name="price"
+                          id={`price-${PRICE_FILTERS.options.length}`}
                           type="radio"
+                          name="price"
                           className="w-4 h-4"
-                          checked={!filter.price.isCustom && filter.price.range[0] === option.range[0] && filter.price.range[1] === option.range[1]}
+                          checked={filter.price.isCustom}
                           onChange={() => {
                             setFilter((prev) => ({
                               ...prev,
                               price: {
-                                isCustom: false,
-                                range: [option.range[0], option.range[1]],
+                                isCustom: true,
+                                range: [0, 100],
                               },
                             }));
                           }}
                         />
                         <label
-                          className="text-gray-600  pl-3"
-                          htmlFor={`price-${index}`}>
-                          {option.name}
+                          className="text-gray-600 pl-3"
+                          htmlFor={`price-${PRICE_FILTERS.options.length}`}>
+                          Custom
                         </label>
                       </li>
-                    ))}
-                    <li className="flex items-center">
-                      <input
-                        id={`price-${PRICE_FILTERS.options.length}`}
-                        type="radio"
-                        name="price"
-                        className="w-4 h-4"
-                        checked={filter.price.isCustom}
-                        onChange={() => {
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-gray-900 font-medium">Price</h3>
+                        <p>
+                          {minPrice} $ - {maxPrice} $
+                        </p>
+                      </div>
+                      <Slider
+                        className={cn("", {
+                          "opacity-60 cursor-not-allowed": !filter.price.isCustom,
+                        })}
+                        step={1}
+                        disabled={!filter.price.isCustom}
+                        min={0}
+                        max={100}
+                        value={[filter.price.range[0], filter.price.range[1]]}
+                        onValueChange={(range) => {
                           setFilter((prev) => ({
                             ...prev,
                             price: {
                               isCustom: true,
-                              range: [0, 100],
+                              range: [range[0], range[1]],
                             },
                           }));
                         }}
                       />
-                      <label
-                        className="text-gray-600 pl-3"
-                        htmlFor={`price-${PRICE_FILTERS.options.length}`}>
-                        Custom
-                      </label>
-                    </li>
-                    <div className="flex justify-between items-center">
-                      <h3 className="text-gray-900 font-medium">Price</h3>
-                      <p>
-                        {minPrice} $ - {maxPrice} $
-                      </p>
-                    </div>
-                    <Slider
-                      className={cn("", {
-                        "opacity-60 cursor-not-allowed": !filter.price.isCustom,
-                      })}
-                      step={1}
-                      disabled={!filter.price.isCustom}
-                      min={0}
-                      max={100}
-                      value={[filter.price.range[0], filter.price.range[1]]}
-                      onValueChange={(range) => {
-                        setFilter((prev) => ({
-                          ...prev,
-                          price: {
-                            isCustom: true,
-                            range: [range[0], range[1]],
-                          },
-                        }));
-                      }}
-                    />
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
           </div>
         </div>
 
         {/* Products*/}
-        <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pt-6">
           {products ? (
             products.length > 0 ? (
               products?.map((item: { id: string; metadata: TProduct }) => (
