@@ -15,8 +15,8 @@ import { useCallback, useEffect, useState } from "react";
 
 const SORT_OPTIONS = [
   { name: "None", value: "none" },
-  { name: "Price: High to Low", value: "price-asc" },
-  { name: "Price: Low to High", value: "price-desc" },
+  { name: "Price: High to Low", value: "price-desc" },
+  { name: "Price: Low to High", value: "price-asc" },
 ] as const;
 
 const PRODUCTS_OPTIONS = [
@@ -99,7 +99,7 @@ export default function Home() {
   return (
     <main className="mx-auto max-w-7xl p-4 sm:p-6">
       <div className="pt-24 pb-6 border-gray-200 border-b flex justify-between items-end">
-        <h1 className="text-gray-900 font-bold tracking-tight text-4xl">High quality cotton selection</h1>
+        <h1 className="text-gray-900 font-bold tracking-tight text-2xl md:text-4xl">High quality cotton selection</h1>
         <DropdownMenu>
           <DropdownMenuTrigger className="group text-sm font-medium text-gray-700 hover:text-gray-900 flex items-center gap-1">
             <p>Sort</p>
