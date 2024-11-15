@@ -29,6 +29,9 @@ class Filter {
   }
 }
 
+const AVG_PRODUCT_PRICE = 25
+const MAX_PRODUCT_PRICE = 50
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "method not allowed" });
@@ -44,8 +47,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     filter.addRow("price", `price >= ${price[0]} AND price <= ${price[1]}`);
 
     const products = await db.query({
-      topK: 12,
-      vector: [0, 0, 0],
+      topK: 40,
+      vector: [
+        0,
+        0,
+        sort === 'none'
+          ? AVG_PRODUCT_PRICE
+          : sort === 'price-asc'
+          ? 0
+          : MAX_PRODUCT_PRICE,
+      ],
       includeMetadata: true,
       filter: filter.hasFilters() ? filter.get() : undefined,
     });
