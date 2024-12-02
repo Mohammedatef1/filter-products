@@ -1,6 +1,6 @@
 # Products Filter
 
-Products Filter is a React application that displays products and provides options to sort them by price and filter them by color, size, or price range. The project leverages Upstash Vector for data storage, Tailwind for styling, and various libraries for functionality and state management.
+Products Filter is a React application that displays products and provides options to sort them by price and filter them by color, size, or price range. The project leverages Upstash Vector for data storage, Tailwind for styling, Lodash debounce for optimizing API usage and reducing redundant requests,  and various libraries for functionality and state management.
 
 ## Features
 
