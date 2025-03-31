@@ -7,7 +7,8 @@ const Product = ({ product }: { product: Product }) => {
       <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-200 border-none lg:h-80 group-hover:opacity-80">
         <img
           src={imageId}
-          alt=""
+          alt={name}
+          loading="lazy"
           className="w-full h-full object-cover object-center"
         />
       </div>
